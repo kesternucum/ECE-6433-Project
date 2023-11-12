@@ -1,23 +1,50 @@
+% p1_coded()
+% Produces a P1 phase-coded pulsed waveform
 % Requires use of the Phased Array System toolbox
-% Ex. p1_coded(16, 2e-6, 5e3, 2)
+%
+% Arguments:
+% num_chips  - number of chips
+% chip_width - width of each chip (s)
+% PRF        - pulse repetition frequency (Hz)
+% A          - amplitude (V)
+% fs         - sampling rate (Hz)
+% N          - number of pulses
+%
+% Returns: 
+% y   - waveform voltage amplitude across specified time interval
+%
+% Ex. p1_coded(16, 2e-6, 5e3, 10, 1e6, 2)
 
-function [] = p1_coded(num_chips, chip_width, prf, num_pulses)
-    waveform = phased.PhaseCodedWaveform('Code','P1',...
-        'NumChips',num_chips,'ChipWidth',chip_width,...
-        'PRF',prf,'OutputFormat','Pulses',...
-        'NumPulses',num_pulses);
-    wav = step(waveform);
-    numpulses = size(wav,1);
-    t = [0:(numpulses-1)]/waveform.SampleRate;
-    subplot(2,1,1)
-    plot(t*1e6,real(wav))
-    title('Amplitude')
-    xlabel('Time (\mu sec)')
-    ylabel('Amplitude')
+function [y] = p1_coded(num_chips, chip_width, PRF, A, fs, N)
+    waveform = phased.PhaseCodedWaveform(...
+        'Code', 'P1',...
+        'NumChips', num_chips,...
+        'ChipWidth', chip_width,...
+        'PRF',  PRF,...
+        'OutputFormat', 'Pulses',...
+        'SampleRate', fs,...
+        'NumPulses', N);
+    wav_pulses = transpose(step(waveform)) * A;
     
-    subplot(2,1,2)
-    plot(t*1e6,180/pi*angle(wav))
-    title('Phase Angle')
-    xlabel('Time (\mu sec)')
-    ylabel('Phase Angle (deg)')
+    % Adds listening samples at beginning so pulse does not start a t = 0
+    PRI = 1/PRF;   % Pulse repetition interval (s)
+    Ts  = 1/fs;    % Sampling interval (s)
+    rx_samples_max = (PRI-num_chips*chip_width)/Ts;
+    num_rx_samples = randi([1 int32(rx_samples_max)], 1, 1);
+    wav_rx = zeros(1, num_rx_samples);
+    y = [wav_rx wav_pulses];
+    
+    % Uncomment to plot waveforms
+    % num_samples = size(y,2);
+    % t = 0:Ts:(num_samples-1)/fs; % Time (s)
+    % subplot(2,1,1)
+    % plot(t,real(y))
+    % title('Amplitude')
+    % xlabel('Time (s)')
+    % ylabel('Amplitude')
+    % subplot(2,1,2)
+    % plot(t, 180/pi*angle(y))
+    % title('Phase Angle')
+    % xlabel('Time (s)')
+    % ylabel('Phase Angle (deg)')
 end
