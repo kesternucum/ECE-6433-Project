@@ -35,17 +35,16 @@ function [] = frank_coded(num_chips, chip_width, PRF, A, fs, N)
     y = [wav_rx wav_pulses];
     
     % Uncomment to plot waveforms
-    num_samples = size(y,2);
-    t = 0:Ts:(num_samples-1)/fs; % Time (s)
-    subplot(2,1,1)
-    plot(t,real(y))
-    title('Amplitude')
-    xlabel('Time (s)')
-    ylabel('Amplitude')
-    
-    subplot(2,1,2)
-    plot(t, 180/pi*angle(y))
-    title('Phase Angle')
-    xlabel('Time (s)')
-    ylabel('Phase Angle (deg)')
+    % num_samples = size(y,2);
+    % t = 0:Ts:(num_samples-1)/fs; % Time (s)
+    % subplot(2,1,1)
+    % plot(t,real(y))
+    % title('Amplitude')
+    % xlabel('Time (s)')
+    % ylabel('Amplitude')
+    % subplot(2,1,2)
+    % plot(t, 180/pi*angle(y))
+    % title('Phase Angle')
+    % xlabel('Time (s)')
+    % ylabel('Phase Angle (deg)')
 end
