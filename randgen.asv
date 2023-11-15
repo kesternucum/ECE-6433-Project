@@ -1,0 +1,20 @@
+clear; close all; clc;
+
+% LFM param
+a =3*10^-6; %Min
+b = 3*10^-3;%Max
+r = (b-a).*rand() + a;
+tau_LFM = rand()*10^-4;%Pulsewidth
+a =*10^-6; %Min
+b = 3*10^-3;%Max
+r = (b-a).*rand() + a;
+B_LFM = (rand() * 40)/tau_LFM; %Bandwidth
+TB = (B_LFM * tau_LFM) + 40; %At least more than 40
+F_LFM = 10*10^9;%10GHz
+
+%Sinewave
+
+tau_sin = rand()*10^-4;%Pulsewidth
+a = 50; %Min
+b = 100;%Max
+r = (b-a).*rand() + a;
