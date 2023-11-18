@@ -15,7 +15,7 @@
 %
 % Ex. pulse_lfm_chirp(3e5, 50e-6, 10e3, 10, 10e6, 4)
 
-function [y] = pulse_lfm_chirp (B, pw, PRF, A, fs, num_pulses)
+function [y] = pulse_lfm_chirp (B, pw, PRF, A, fs, N)
     
     % Creates an LFM chirp pulsed waveform with specified parameters
     waveform = phased.LinearFMWaveform(...
@@ -24,7 +24,7 @@ function [y] = pulse_lfm_chirp (B, pw, PRF, A, fs, num_pulses)
         'SampleRate', fs,...
         'PulseWidth', pw,...
         'PRF', PRF,...
-        'NumPulses', num_pulses);
+        'NumPulses', N);
     wav_pulses = transpose(step(waveform)) * A;
     
     % Adds listening samples at beginning so pulse does not start a t = 0

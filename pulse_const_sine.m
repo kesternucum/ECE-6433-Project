@@ -27,7 +27,7 @@ function [y] = pulse_const_sine (f, pw, PRF, A, fs, N)
     
     % Adds listening samples at beginning so pulse does not start a t = 0
     Ts = 1/fs;    % Sampling interval (s)
-    rx_samples_max = (PRI-pw)/Ts;
+    rx_samples_max = floor((PRI-pw)/Ts);
     num_rx_samples = randi([1 int32(rx_samples_max)], 1, 1);
     wav_rx = zeros(1, num_rx_samples);
     y = [wav_rx wav_pulses];

@@ -29,7 +29,7 @@ function [y] = cw_lfm_chirp (B, PRF, A, fs, N)
     y = transpose(step(waveform)) * A;
     
     % Uncomment out to plot waveform
-    Ts  = 1/fs;   % Sampling interval (s)
+    % Ts  = 1/fs;   % Sampling interval (s)
     % num_samples = size(y,2);
     % t = 0:Ts:(num_samples-1)/fs;
     % plot(t,real(y))
