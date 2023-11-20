@@ -5,7 +5,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SET THESE PARAMETERS
 MAX_SNR_DB    = 50;  % Range starts from 0 dB
-NUM_WAVEFORMS = 10;  % Will add on to already existing dataset
+NUM_WAVEFORMS = 1;  % Will add on to already existing dataset
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Will store all waveform data in a struct array
 if exist('waveforms', 'var') == 0
@@ -52,11 +52,13 @@ for i = 1:NUM_WAVEFORMS
             y = rand_p1_coded(n_dc, s_n, SNR, A);
             type = 'P1 Coded Pulse';
     end
-    plot(real(y))
-    fprintf(type)
-    fprintf("\nSNR is %f dB.\n", SNR_dB);
+    
     waveforms(index).signal = y;
     waveforms(index).snr    = SNR_dB;
     waveforms(index).type   = type;
     index = index + 1;
+    
+    % UNCOMMENT FOR DEBUGGING TO SEE WAVEFORMS
+    % plot(real(y))
+    fprintf("%s: SNR is %f dB.\n", type, SNR_dB);
 end
