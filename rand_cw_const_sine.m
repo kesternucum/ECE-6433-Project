@@ -14,7 +14,7 @@
 
 function [y] = rand_cw_const_sine (n_dc, s_n, SNR, A, fs)
     f  = randi(390e6) + 10e6;  % Frequency (10 MHz - 400 MHz/VHF and UHF)
-	N  = randi(13001) + 1999;    % Number of cycles (2000 - 15000 cycles)
+	N  = randi(150001) + 1999; % Number of cycles (80000 - 150000 cycles)
 	y  = cw_const_sine(f, A, fs, N);
     
 	[y_i, y_q] = separate_signal_iq_components(y);
