@@ -5,14 +5,14 @@
 % n_dc - DC offset for noise
 % s_n  - noise variance
 % SNR  - desired signal-to-noise ratio (linear)
-% A  - amplitude (V)
+% A    - amplitude (V)
+% fs   - sampling frequency (Hz)
 %
 % Returns: 
 % y  - waveform with injected noise
 
-function [y] = rand_pulse_lfm_chirp (n_dc, s_n, SNR, A)
+function [y] = rand_pulse_lfm_chirp (n_dc, s_n, SNR, A, fs)
 	B   = randi(390e6) + 10e6;  % Bandwidth (10 MHz - 400 MHz)
-	fs  = 1e9;  % Sampling frequency, will be consistent (1 GHz)
 
 	% Pulsewidth (3 us to 3 ms)
 	% Note: B = 10 MHz will require at least a pw = 4 us,

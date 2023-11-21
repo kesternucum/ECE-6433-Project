@@ -7,14 +7,14 @@
 % s_n  - noise variance
 % SNR  - desired signal-to-noise ratio (linear)
 % A    - amplitude (V)
+% fs   - sampling frequency (Hz)
 %
 % Returns: 
 % y  - waveform with injected noise
 
-function [y] = rand_cw_const_sine (n_dc, s_n, SNR, A)
+function [y] = rand_cw_const_sine (n_dc, s_n, SNR, A, fs)
     f  = randi(390e6) + 10e6;  % Frequency (10 MHz - 400 MHz/VHF and UHF)
-	fs = 1e9;  % Sampling frequency, will be consistent (5 GHz)
-	N  = randi(6) + 4;         % Number of cycles (5 - 10 cycles)
+	N  = randi(9001) + 999;    % Number of cycles (1000 - 10000 cycles)
 	y  = cw_const_sine(f, A, fs, N);
     
 	[y_i, y_q] = separate_signal_iq_components(y);

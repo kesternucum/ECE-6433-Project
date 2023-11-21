@@ -5,7 +5,8 @@
 % n_dc - DC offset for noise
 % s_n  - noise variance
 % SNR  - desired signal-to-noise ratio (linear)
-% A  - amplitude (V)
+% A    - amplitude (V)
+% fs   - sampling frequency (Hz)
 %
 % Returns: 
 % y  - waveform with injected noise

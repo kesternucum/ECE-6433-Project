@@ -5,14 +5,14 @@
 % n_dc - DC offset for noise
 % s_n  - noise variance
 % SNR  - desired signal-to-noise ratio (linear)
-% A  - amplitude (V)
+% A    - amplitude (V)
+% fs   - sampling frequency (Hz)
 %
 % Returns: 
 % y  - waveform with injected noise
 
-function [y] = rand_pulse_const_sine (n_dc, s_n, SNR, A)
+function [y] = rand_pulse_const_sine (n_dc, s_n, SNR, A, fs)
 	f   = randi(390e6) + 10e6; % Frequency (10 MHz - 400 MHz/VHF and UHF)
-	fs  = 1e9;  % Sampling frequency, will be consistent (1 GHz)
     
     % Pulsewidth (3 us to 3 ms)
 	pw_min_us = 3;               % Minimum pulsewidth (in us)
