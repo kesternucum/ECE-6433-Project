@@ -30,7 +30,7 @@ function [y] = rand_p1_coded (n_dc, s_n, SNR, A, fs)
 	fs_to_PRF_max = floor(fs/PRF_min);
 	PRF = fs / ((randi(fs_to_PRF_max - fs_to_PRF_min) + fs_to_PRF_min));
   
-	N   = randi(2) + 2;            % Number of pulses (2 - 4 pulses)
+	N   = randi(3) + 1;            % Number of pulses (2 - 4 pulses)
 	y = p1_coded(num_chips, chip_width, PRF, A, fs, N);
 	plot(real(y));
 	[y_i, y_q] = separate_signal_iq_components(y);
