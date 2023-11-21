@@ -11,9 +11,8 @@
 % Returns: 
 % y  - waveform with injected noise
 
-function [y] = rand_frank_coded (n_dc, s_n, SNR, A)
+function [y] = rand_frank_coded (n_dc, s_n, SNR, A, fs)
 	num_chips = (randi(4) + 6)^2;  % tB >= 40, so number of chips >= 49
-	fs        = 1e9;    % Sampling frequency, will be consistent (1 GHz)
 
 	pw_min    = 1e-4;              % Pulsewidth (100 us - 1 ms)
 	pw_max    = 1e-3;
