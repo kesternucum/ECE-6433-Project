@@ -22,7 +22,6 @@ else
 end
 
 % Will store all spectrogram images in folder
-% These folders 
 if RUN_STFT == 1
     if exist('dataset/cw_const_sine', 'dir') == 0
         % Will create new folder
