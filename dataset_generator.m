@@ -8,7 +8,6 @@ MAX_SNR_DB       = 50;       % Range starts from 0 dB
 SNR_DB_INCREMENT = 10;       % Increments
 NUM_WAVEFORMS    = 1;        % Will add on to already existing dataset
 RUN_STFT         = 1;        % 0 - stores noisy signal, 1 - stores STFT
-TRAINING_DATA    = 1;        % 1 - stores data into category folders
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Will store all waveform data in a struct array
 % NOTE: Copy over elements in waveform array to differenly named
