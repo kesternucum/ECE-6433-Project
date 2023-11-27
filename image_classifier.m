@@ -2,6 +2,7 @@
 % Implements a linear support vector machine classifier
 % to categorize waveform spectrogram images in the dataset folder
 % and outputs the covariance result matrix on the test set
+% Requires the Computer Vision toolbox
 
 setDir  = "dataset";
 imds = imageDatastore("dataset", ...
