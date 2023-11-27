@@ -8,14 +8,46 @@ MAX_SNR_DB       = 50;       % Range starts from 0 dB
 SNR_DB_INCREMENT = 10;       % Increments
 NUM_WAVEFORMS    = 1;        % Will add on to already existing dataset
 RUN_STFT         = 1;        % 0 - stores noisy signal, 1 - stores STFT
+TRAINING_DATA    = 1;        % 1 - stores data into category folders
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Will store all waveform data in a struct array
+% NOTE: Copy over elements in waveform array to differenly named
+%       array if running this on a separate dataset
 if exist('waveforms', 'var') == 0
     % Will create a new struct array
     index = 1;
 else
     % Starts at the next index of pre-existing struct array
     index = numel(waveforms) + 1;
+end
+
+% Will store all spectrogram images in folder
+% These folders 
+if RUN_STFT == 1
+    if exist('dataset/cw_const_sine', 'dir') == 0
+        % Will create new folder
+        mkdir dataset/cw_const_sine
+    end
+    if exist('dataset/cw_lfm_chirp', 'dir') == 0
+        % Will create new folder
+        mkdir dataset/cw_lfm_chirp
+    end
+    if exist('dataset/const_sine_pulse', 'dir') == 0
+        % Will create new folder
+        mkdir dataset/const_sine_pulse
+    end
+    if exist('dataset/lfm_chirp_pulse', 'dir') == 0
+        % Will create new folder
+        mkdir dataset/lfm_chirp_pulse
+    end
+    if exist('dataset/frank_coded_pulse', 'dir') == 0
+        % Will create new folder
+        mkdir dataset/frank_coded_pulse
+    end
+    if exist('dataset/p1_coded_pulse', 'dir') == 0
+        % Will create new folder
+        mkdir dataset/p1_coded_pulse
+    end
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -30,6 +62,9 @@ fs = 1e9;
 
 % SNR Increments
 SNR_dB_ratio = floor(MAX_SNR_DB / SNR_DB_INCREMENT);
+
+% STFT Window Parameters
+window_size = 65536;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for i = 1:NUM_WAVEFORMS
     
@@ -42,44 +77,47 @@ for i = 1:NUM_WAVEFORMS
     switch wf_sel
         case 1
             y = rand_cw_const_sine(n_dc, s_n, SNR, A, fs);
-            type = 'CW Const Sine';
+            type = 'cw_const_sine';
         case 2
             y = rand_cw_lfm_chirp(n_dc, s_n, SNR, A, fs);
-            type = 'CW LFM Chirp';
+            type = 'cw_lfm_chirp';
         case 3
             y = rand_pulse_const_sine(n_dc, s_n, SNR, A, fs);
-            type = 'Const Freq Sine Pulse';
+            type = 'const_sine_pulse';
         case 4
             y = rand_pulse_lfm_chirp(n_dc, s_n, SNR, A, fs);
-            type = 'LFM Chirp Pulse';
+            type = 'lfm_chirp_pulse';
         case 5
             y = rand_frank_coded(n_dc, s_n, SNR, A, fs);
-            type = 'Frank Coded Pulse';
+            type = 'frank_coded_pulse';
         otherwise % case 6
             y = rand_p1_coded(n_dc, s_n, SNR, A, fs);
-            type = 'P1 Coded Pulse';
+            type = 'p1_coded_pulse';
     end
     
     % UNCOMMENT FOR DEBUGGING TO SEE WAVEFORMS
-    %plot(real(y))
+    % plot(real(y))
     fprintf("Waveform %d: %s with SNR = %d dB.\n", index, type, SNR_dB);
     
     if RUN_STFT == 0
-        % Store noisy signal
+        % Store samples of noisy signal in time
         waveforms(index).signal = y;
-    elseif RUN_STFT == 1
-        % Store STFT of signal
+        waveforms(index).snr    = SNR_dB;
+        waveforms(index).type   = type;
+        index = index + 1;
+    elseif RUN_STFT == 1 && numel(y) > window_size
+        % Store name of image of STFT/spectrogram of signal
         
-        % The smallest waveform possible is a CW LFM chirp
-        % with a PRF of 10 kHz and 2 sweeps recorded at
-        % sampling frequency of 1 GHz, which produces 200000 samples.
-        % Thus, suitable Gaussian window for this end-case
-        % is 2^16, or 65536.
-        s = spectrogram(y, gausswin(65536),[],[],fs,'yaxis');
-        waveforms(index).signal = s;
+        % The smallest waveform possible is a CW const sine wave
+        spectrogram(y, gausswin(window_size),[],[],fs,'yaxis');
+        
+        image = ['waveform_' num2str(index) '.png'];
+        filename = fullfile('dataset', type, image);
+        
+        saveas(gcf,filename); % Use to display save as image
+        waveforms(index).signal = filename;
+        waveforms(index).snr    = SNR_dB;
+        waveforms(index).type   = type;
+        index = index + 1;
     end
-    
-    waveforms(index).snr    = SNR_dB;
-    waveforms(index).type   = type;
-    index = index + 1;
 end
