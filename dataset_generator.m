@@ -52,7 +52,7 @@ end
 % Noise Parameters (consistent across all waveforms)
 s_n = 1/sqrt(2);    % Noise variance (V), assume noise variance in
                     % I and Q components are equal, so that
-                    % total magnitude variance is 1.
+                    % total magnitude variance s_n^2 is 1.
 n_dc = 0;           % DC offset of noise (V)
 
 % Sampling Frequency Parameters (consistent across all waveforms)
